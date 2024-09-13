@@ -17,8 +17,8 @@ if vim.g.base46_cache then
     ExBlue = { fg = colors.blue },
     ExGreen = { fg = colors.green },
 
-    ExHovered = { bg = colors.one_bg3 },
-    ExLightGrey = { fg = lighten(colors.grey, 30) },
+    ExBlack3Bg = { bg = colors.one_bg3 },
+    ExLightGrey = { fg = lighten(colors.grey, 35) },
   }
 else
   local normal_bg = api.nvim_get_hl(0, { name = "Normal" }).bg
@@ -38,7 +38,7 @@ else
     EXBlue = { link = "Function" },
     ExGreen = { link = "String" },
 
-    ExHovered = { bg = lighten(normal_bg, 10) },
+    ExBlack3Bg = { bg = lighten(normal_bg, 10) },
     ExLightGrey = { fg = lighten(normal_bg, 30) },
   }
 end
