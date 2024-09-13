@@ -60,8 +60,8 @@ M.close = function(val)
     end
   end
 
-  if val.close_func_post then
-    val.close_func_post()
+  if val.after_close then
+    val.after_close()
   end
 
   vim.g.nvmark_hovered = nil

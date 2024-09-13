@@ -113,4 +113,15 @@ M.toggle_func = function(open_func, ui_state)
   end
 end
 
+M.close = function(buf)
+  if not buf then
+    api.nvim_feedkeys("q", "x", false)
+    return
+  end
+
+  api.nvim_buf_call(buf, function()
+    api.nvim_feedkeys("q", "x", false)
+  end)
+end
+
 return M
