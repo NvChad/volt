@@ -1,5 +1,6 @@
 local api = vim.api
 local lighten = require("volt.color").change_hex_lightness
+local bg = vim.o.bg
 
 local highlights = {}
 
@@ -18,7 +19,7 @@ if vim.g.base46_cache then
     ExGreen = { fg = colors.green },
 
     ExBlack3Bg = { bg = colors.one_bg3 },
-    ExLightGrey = { fg = lighten(colors.grey, 35) },
+    ExLightGrey = { fg = lighten(colors.grey, bg == "dark" and 35 or -35) },
   }
 else
   local normal_bg = api.nvim_get_hl(0, { name = "Normal" }).bg
@@ -34,12 +35,12 @@ else
     ExBlack2Bg = { bg = lighter_bg },
     ExBlack2Border = { bg = lighter_bg, fg = lighter_bg },
 
-    ExRed = {  link = "ErrorMsg" },
+    ExRed = { link = "ErrorMsg" },
     EXBlue = { link = "Function" },
     ExGreen = { link = "String" },
 
     ExBlack3Bg = { bg = lighten(normal_bg, 10) },
-    ExLightGrey = { fg = lighten(normal_bg, 30) },
+    ExLightGrey = { fg = lighten(normal_bg, bg == "dark" and 35 or -35) },
   }
 end
 
