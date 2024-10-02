@@ -81,6 +81,10 @@ M.mappings = function(val)
     map("n", "q", function()
       utils.close(val)
     end, { buffer = buf })
+
+    map("n", "<ESC>", function()
+      utils.close(val)
+    end, { buffer = buf })
   end
 
   if val.input_buf then
