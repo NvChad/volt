@@ -18,7 +18,8 @@ if vim.g.base46_cache then
     ExBlue = { fg = colors.blue },
     ExGreen = { fg = colors.green },
 
-    ExBlack3Bg = { bg = colors.one_bg3 },
+    ExBlack3Bg = { bg = colors.one_bg2 },
+    ExBlack3Border = { bg = colors.one_bg2, fg = colors.one_bg2 },
     ExLightGrey = { fg = lighten(colors.grey, bg == "dark" and 35 or -35) },
   }
 else
@@ -27,6 +28,7 @@ else
 
   local darker_bg = lighten(normal_bg, -3)
   local lighter_bg = lighten(normal_bg, 5)
+  local black3_bg = lighter_bg(normal_bg, 10)
 
   highlights = {
     ExDarkBg = { bg = darker_bg },
@@ -39,7 +41,8 @@ else
     EXBlue = { link = "Function" },
     ExGreen = { link = "String" },
 
-    ExBlack3Bg = { bg = lighten(normal_bg, 10) },
+    ExBlack3Bg = { bg = black3_bg, 10 },
+    ExBlack3Border = { bg = black3_bg, fg = black3_bg },
     ExLightGrey = { fg = lighten(normal_bg, bg == "dark" and 35 or -35) },
   }
 end
