@@ -24,12 +24,12 @@ if vim.g.base46_cache then
   }
 else
   local normal_bg = api.nvim_get_hl(0, { name = "Normal" }).bg
-  
+
   normal_bg = ("%06x"):format((normal_bg == nil and 0 or normal_bg))
 
   local darker_bg = lighten(normal_bg, -3)
   local lighter_bg = lighten(normal_bg, 5)
-  local black3_bg = lighter_bg(normal_bg, 10)
+  local black3_bg = lighten(normal_bg, 10)
 
   highlights = {
     ExDarkBg = { bg = darker_bg },
@@ -42,7 +42,7 @@ else
     EXBlue = { link = "Function" },
     ExGreen = { link = "String" },
 
-    ExBlack3Bg = { bg = black3_bg, 10 },
+    ExBlack3Bg = { bg = black3_bg },
     ExBlack3Border = { bg = black3_bg, fg = black3_bg },
     ExLightGrey = { fg = lighten(normal_bg, bg == "dark" and 35 or -35) },
   }
