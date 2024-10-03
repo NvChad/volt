@@ -24,7 +24,8 @@ if vim.g.base46_cache then
   }
 else
   local normal_bg = api.nvim_get_hl(0, { name = "Normal" }).bg
-  normal_bg = ("%06x"):format(normal_bg)
+  
+  normal_bg = ("%06x"):format((normal_bg == nil and 0 or normal_bg))
 
   local darker_bg = lighten(normal_bg, -3)
   local lighter_bg = lighten(normal_bg, 5)
