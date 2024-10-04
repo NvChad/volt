@@ -11,6 +11,8 @@ return function(buf, section)
     local row = line_i + section.row
     local col = xpad
 
+    vim.bo[buf].filetype = "VoltWindow"
+
     v.clickables[row] = {}
     v.hoverables[row] = {}
 
