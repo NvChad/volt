@@ -96,6 +96,8 @@ M.mappings = function(val)
 end
 
 M.run = function(buf, opts)
+  vim.bo[buf].filetype = "VoltWindow"
+
   M.set_empty_lines(buf, opts.h, opts.w)
   require "volt.highlights"
 
