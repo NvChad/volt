@@ -23,7 +23,7 @@ local run_func = function(foo)
   end
 end
 
-local function handle_click(buf, by, row, col)
+local function handle_click(buf, by, row, col, win)
   local v = nvmark_state[buf]
 
   if not row then
@@ -37,6 +37,12 @@ local function handle_click(buf, by, row, col)
     if virt and (by ~= "keyb" or virt.ui_type == "slider") then
       local actions = virt.actions
       run_func(type(actions) == "table" and actions.click or actions)
+    end
+
+    if win and api.nvim_win_is_valid(win) then
+      vim.schedule(function()
+        api.nvim_win_set_cursor(win, { 1, 1 })
+      end)
     end
   end
 end
@@ -122,7 +128,7 @@ M.enable = function()
       if key == MouseMove then
         handle_hover(nvmark_state[cur_buf], cur_buf, row, col)
       elseif key == LeftMouse then
-        handle_click(cur_buf, "mouse", row, col)
+        handle_click(cur_buf, "mouse", row, col, cur_win)
       end
     end
   end)
