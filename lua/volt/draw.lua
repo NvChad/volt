@@ -5,7 +5,7 @@ local state = require "volt.state"
 return function(buf, section)
   local v = state[buf]
   local section_lines = section.lines(buf)
-  local xpad = v.xpad or 0
+  local xpad = section.col_start or v.xpad or 0
 
   for line_i, val in ipairs(section_lines) do
     local row = line_i + section.row
