@@ -22,7 +22,6 @@ M.gen_data = function(data)
 
     v.clickables = {}
     v.hoverables = {}
-    v.ids = {}
     v.xpad = info.xpad
     v.layout = info.layout
     v.ns = info.ns
@@ -102,7 +101,6 @@ M.run = function(buf, opts)
   require "volt.highlights"
 
   M.redraw(buf, "all")
-  state[buf].ids_set = true
 
   api.nvim_set_option_value("modifiable", false, { buf = buf })
 
