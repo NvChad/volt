@@ -45,7 +45,7 @@ return function(buf, section)
 
   for line, marks in ipairs(section_lines) do
     local row = line + section.row
-    local opts = { virt_text_pos = "overlay", virt_text = marks, id = row }
-    set_extmark(buf, v.ns, row - 1, xpad, opts)
+    local opts = { virt_text_win_col = xpad, virt_text = marks, id = row }
+    set_extmark(buf, v.ns, row - 1, 0, opts)
   end
 end

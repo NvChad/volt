@@ -97,7 +97,12 @@ end
 M.run = function(buf, opts)
   vim.bo[buf].filetype = "VoltWindow"
 
-  M.set_empty_lines(buf, opts.h, opts.w)
+  if opts.custom_empty_lines then
+    opts.custom_empty_lines()
+  else
+    M.set_empty_lines(buf, opts.h, opts.w)
+  end
+
   require "volt.highlights"
 
   M.redraw(buf, "all")
