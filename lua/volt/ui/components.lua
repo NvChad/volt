@@ -42,4 +42,8 @@ M.progressbar = function(o)
   }
 end
 
+M.separator = function(char, w, hl)
+  return { { string.rep(char or "─", w), hl or "linenr" } }
+end
+
 return M
