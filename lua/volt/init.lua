@@ -85,19 +85,6 @@ M.mappings = function(val)
       utils.close(val)
     end, { buffer = buf })
   end
-
-  if val.input_buf then
-    api.nvim_create_autocmd({ "WinEnter", "WinLeave" }, {
-      buffer = val.input_buf,
-      callback = function(args)
-        if args.event == "WinEnter" then
-          api.nvim_feedkeys("A", "n", true)
-        else
-          vim.cmd "stopinsert"
-        end
-      end,
-    })
-  end
 end
 
 M.run = function(buf, opts)
