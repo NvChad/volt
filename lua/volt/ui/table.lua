@@ -8,7 +8,8 @@ local get_column_widths = function(tb, w)
   for i = 1, maxrow do
     local maxlen = 0
     for _, row in ipairs(tb) do
-      maxlen = math.max(maxlen, vim.api.nvim_strwidth(row[i]))
+      local str = tostring(row[i])
+      maxlen = math.max(maxlen, vim.api.nvim_strwidth(str))
     end
     table.insert(result, maxlen)
     sum = sum + maxlen
