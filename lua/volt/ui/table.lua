@@ -1,5 +1,3 @@
-local separator = require("volt.ui.components").separator
-
 local get_column_widths = function(tb, w)
   local maxrow = #tb[1]
   local sum = 0
@@ -7,10 +5,12 @@ local get_column_widths = function(tb, w)
 
   for i = 1, maxrow do
     local maxlen = 0
+
     for _, row in ipairs(tb) do
       local str = tostring(row[i])
       maxlen = math.max(maxlen, vim.api.nvim_strwidth(str))
     end
+
     table.insert(result, maxlen)
     sum = sum + maxlen
   end
@@ -18,19 +18,51 @@ local get_column_widths = function(tb, w)
   local remaining_space = w - sum
   local ratio = math.floor(remaining_space / maxrow)
 
-  return vim.tbl_map(function(x)
-    return x + ratio
+  local col_widths = vim.tbl_map(function(x)
+    sum = sum + ratio
+    return x + ratio - 2
   end, result)
+
+  local last_item = col_widths[#col_widths]
+  -- -1 cuz last col has right border too
+  col_widths[#col_widths] = last_item + (w - sum) - 1
+
+  return col_widths
+end
+
+local border_chars = {
+  mid = { top = "┬", bot = "┴", none = "┼" },
+  corners_left = { top = "┌", bot = "└", none = "├" },
+  corners_right = { top = "┐", bot = "┘", none = "┤" },
+}
+
+local table_border = function(points, row_type)
+  local str = ""
+  local tblen = #points
+
+  for i, n in ipairs(points) do
+    local t_char = border_chars.mid[row_type or "none"]
+    t_char = i == tblen and "" or t_char
+
+    str = str .. string.rep("─", n + 1) .. t_char
+  end
+
+  local l_char = border_chars.corners_left[row_type or "none"]
+  local r_char = border_chars.corners_right[row_type or "none"]
+
+  return { { l_char .. str .. r_char, "linenr" } }
 end
 
 return function(tbl, w)
-  local sep = separator(nil, w)
-  local title_sep = separator(nil, w, "exgreen")
-
   local col_widths = get_column_widths(tbl, w)
 
   local lines = {}
-  table.insert(lines, title_sep)
+  local tb_border_up = table_border(col_widths, "top")
+  local tb_border_middle = table_border(col_widths)
+  local tb_border_down = table_border(col_widths, "bot")
+
+  table.insert(lines, tb_border_up)
+  local end_i = #tbl
 
   for line_i, row in ipairs(tbl) do
     local line = {}
@@ -38,12 +70,20 @@ return function(tbl, w)
     for i, v in ipairs(row) do
       local maxlen = col_widths[i]
       local strlen = vim.api.nvim_strwidth(tostring(v))
-      local pad = string.rep(" ", maxlen - strlen)
-      local str = v .. pad
+      local pad_w = math.floor((maxlen - strlen) / 2)
+
+      local l_pad = string.rep(" ", pad_w)
+      local r_pad = string.rep(" ", maxlen - pad_w - strlen)
+
+      local str = l_pad .. v .. r_pad
+
+      table.insert(line, { "│ ", "linenr" })
       table.insert(line, { str, line_i == 1 and "exgreen" or "normal" })
+      table.insert(line, { (#row == i and "│") or "", "linenr" })
     end
+
     table.insert(lines, line)
-    table.insert(lines, line_i == 1 and separator(nil, w, "exgreen") or sep)
+    table.insert(lines, line_i == end_i and tb_border_down or tb_border_middle)
   end
 
   return lines

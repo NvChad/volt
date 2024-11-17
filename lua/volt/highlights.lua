@@ -15,6 +15,7 @@ if vim.g.base46_cache then
     ExBlack2border = { bg = colors.black2, fg = colors.black2 },
 
     ExRed = { fg = colors.red },
+    ExYellow = { fg = colors.yellow },
     ExBlue = { fg = colors.blue },
     ExGreen = { fg = colors.green },
 
@@ -39,7 +40,8 @@ else
     ExBlack2Border = { bg = lighter_bg, fg = lighter_bg },
 
     ExRed = { link = "ErrorMsg" },
-    EXBlue = { link = "Function" },
+    ExYellow = { link = "WarningMsg" },
+    ExBlue = { link = "Function" },
     ExGreen = { link = "String" },
 
     ExBlack3Bg = { bg = black3_bg },
