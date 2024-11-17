@@ -6,4 +6,5 @@ return {
   progressbar = components.progressbar,
   table = require "volt.ui.table",
   separator = components.separator,
+  grid_col = require "volt.ui.grid_col",
 }
