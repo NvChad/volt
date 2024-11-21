@@ -29,7 +29,7 @@ return function(columns)
 
   for i, line in ipairs(ui_sections[1]) do
     for j = 2, last_section do
-      append_tb(line, ui_sections[j][i])
+      append_tb(line, ui_sections[j][i] or {})
     end
   end
 
