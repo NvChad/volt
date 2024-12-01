@@ -7,7 +7,8 @@ local get_column_widths = function(tb, w)
     local maxlen = 0
 
     for _, row in ipairs(tb) do
-      local str = tostring(row[i])
+      local txt = type(row[i]) == "table" and row[i][1] or row[i]
+      local str = tostring(txt)
       maxlen = math.max(maxlen, vim.api.nvim_strwidth(str))
     end
 
@@ -53,7 +54,7 @@ local table_border = function(points, row_type)
   return { { l_char .. str .. r_char, "linenr" } }
 end
 
-return function(tbl, w)
+return function(tbl, w, header_hl, title)
   local col_widths = get_column_widths(tbl, w)
 
   local lines = {}
@@ -69,21 +70,31 @@ return function(tbl, w)
 
     for i, v in ipairs(row) do
       local maxlen = col_widths[i]
-      local strlen = vim.api.nvim_strwidth(tostring(v))
+      local is_virt = type(v) == "table"
+      local text = tostring(is_virt and v[1] or v)
+      local strlen = vim.api.nvim_strwidth(text)
+
       local pad_w = math.floor((maxlen - strlen) / 2)
 
       local l_pad = string.rep(" ", pad_w)
       local r_pad = string.rep(" ", maxlen - pad_w - strlen)
 
-      local str = l_pad .. v .. r_pad
+      local hl = (line_i == 1 and (header_hl or "exgreen") or "normal")
+      hl = is_virt and v[2] or hl
+
+      local str = l_pad .. text .. r_pad
 
       table.insert(line, { "│ ", "linenr" })
-      table.insert(line, { str, line_i == 1 and "exgreen" or "normal" })
+      table.insert(line, { str, hl })
       table.insert(line, { (#row == i and "│") or "", "linenr" })
     end
 
     table.insert(lines, line)
     table.insert(lines, line_i == end_i and tb_border_down or tb_border_middle)
+  end
+
+  if title then
+    table.insert(lines, 1, { title })
   end
 
   return lines
