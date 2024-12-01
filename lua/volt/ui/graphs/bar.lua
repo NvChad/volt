@@ -51,8 +51,10 @@ return function(data)
 
   table.insert(lines, { l_pad, bottom_line })
 
-  local footer = utils.footer_label(data.footer_label, total_w, sidelabels_data.maxw)
-  table.insert(lines, footer)
+  if data.footer_label then
+    local footer = utils.footer_label(data.footer_label, total_w, sidelabels_data.maxw)
+    table.insert(lines, footer)
+  end
 
   return lines
 end
