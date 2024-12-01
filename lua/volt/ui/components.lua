@@ -46,4 +46,15 @@ M.separator = function(char, w, hl)
   return { { string.rep(char or "─", w), hl or "linenr" } }
 end
 
+M.grid_row = function(tb)
+  local result = {}
+  for _, lines in ipairs(tb) do
+    for _, line in ipairs(lines) do
+      table.insert(result, line)
+    end
+  end
+
+  return result
+end
+
 return M

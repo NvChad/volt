@@ -7,5 +7,6 @@ return {
   table = require "volt.ui.table",
   separator = components.separator,
   grid_col = require "volt.ui.grid_col",
+  grid_row = components.grid_row,
   graphs = require "volt.ui.graphs",
 }
