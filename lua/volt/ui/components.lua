@@ -71,11 +71,22 @@ M.border = function(lines, hl)
   hl = hl or "linenr"
 
   local maxw = 0
+  local line_widths = {}
 
-  for i, line in ipairs(lines) do
-    maxw = math.max(maxw, M.line_w(line))
+  for _, line in ipairs(lines) do
+    local linew = M.line_w(line)
+
+    if maxw < linew then
+      maxw = linew
+    end
+
+    table.insert(line_widths, linew)
+  end
+
+  for i, _ in ipairs(lines) do
     table.insert(lines[i], 1, { "│ ", hl })
-    table.insert(lines[i], { " │", hl })
+    local rpad = string.rep(" ", maxw - line_widths[i])
+    table.insert(lines[i], { rpad .. " │", hl })
   end
 
   maxw = maxw + 2
