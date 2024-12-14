@@ -57,4 +57,45 @@ M.grid_row = function(tb)
   return result
 end
 
+M.line_w = function(line)
+  local w = 0
+
+  for _, cell in ipairs(line) do
+    w = w + vim.api.nvim_strwidth(cell[1])
+  end
+
+  return w
+end
+
+M.border = function(lines, hl)
+  hl = hl or "linenr"
+
+  local maxw = 0
+
+  for i, line in ipairs(lines) do
+    maxw = math.max(maxw, M.line_w(line))
+    table.insert(lines[i], 1, { "│ ", hl })
+    table.insert(lines[i], { " │", hl })
+  end
+
+  maxw = maxw + 2
+
+  local horiz_chars = string.rep("─", maxw)
+
+  table.insert(lines, 1, { { "┌" .. horiz_chars .. "┐", hl } })
+  table.insert(lines, { { "└" .. horiz_chars .. "┘", hl } })
+end
+
+M.hpad = function(line, w)
+  local pad_w = w - M.line_w(line) - 5
+
+  for i, v in ipairs(line) do
+    if v[1] == "_pad_" then
+      line[i][1] = string.rep(" ", pad_w)
+    end
+  end
+
+  return line
+end
+
 return M

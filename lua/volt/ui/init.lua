@@ -9,4 +9,6 @@ return {
   grid_col = require "volt.ui.grid_col",
   grid_row = components.grid_row,
   graphs = require "volt.ui.graphs",
+  border = components.border,
+  hpad = components.hpad,
 }
